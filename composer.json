@@ -1,0 +1,19 @@
+{
+    "name": "taki47/otpszep",
+    "description": "OTP SZEP card interface for Laravel",
+    "type": "package",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "taki47\\otpszep\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Lajos Takacs",
+            "email": "taki47@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
