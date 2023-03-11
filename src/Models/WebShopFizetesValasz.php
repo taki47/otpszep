@@ -1,54 +1,56 @@
 <?php
 
+namespace taki47\otpszep\Models;
+
 /**
-* @desc A kétszereplõs fizetési tranzakció illetve 
-* a kétlépcsõs fizetés lezárása tranzakció válaszadatait
-* tartalmazó bean / value object.
+* @desc A kÃ©tszereplÅ‘s fizetÃ©si tranzakciÃ³ illetve 
+* a kÃ©tlÃ©pcsÅ‘s fizetÃ©s lezÃ¡rÃ¡sa tranzakciÃ³ vÃ¡laszadatait
+* tartalmazÃ³ bean / value object.
 * 
 * @version 4.0
 */
 class WebShopFizetesValasz {
 
     /**
-    * @desc Shop azonosító, mely megegyezik a inputban megadott értékkel.
+    * @desc Shop azonosÃ­tÃ³, mely megegyezik a inputban megadott Ã©rtÃ©kkel.
     * 
     * @var string
     */
     var $posId;
     
     /**
-    * @desc Fizetési tranzakció azonosító, megegyezik az inputban megadott fizetési tranzakció azonosítóval.
+    * @desc FizetÃ©si tranzakciÃ³ azonosÃ­tÃ³, megegyezik az inputban megadott fizetÃ©si tranzakciÃ³ azonosÃ­tÃ³val.
     * 
     * @var string
     */
     var $azonosito;
 
     /**
-    * @desc A teljesítés idõpecsétje megadja a fizetési tranzakció végének (lezárásának) idõpontját. 
-    * Sikeres és sikertelen vásárlások esetén is kitöltésre kerül.
+    * @desc A teljesÃ­tÃ©s idÅ‘pecsÃ©tje megadja a fizetÃ©si tranzakciÃ³ vÃ©gÃ©nek (lezÃ¡rÃ¡sÃ¡nak) idÅ‘pontjÃ¡t. 
+    * Sikeres Ã©s sikertelen vÃ¡sÃ¡rlÃ¡sok esetÃ©n is kitÃ¶ltÃ©sre kerÃ¼l.
     * 
     * @var string
     */
     var $teljesites;
 
     /**
-    * @desc A válaszkód a fizetési tranzakció „eredménye”. 
-    * Sikeres vásárlás esetén egy háromjegyû numerikus kód a 000-010 értéktartományból. 
-    * Sikertelen vásárlás esetén, amennyiben a hiba (vagy elutasítás) a terhelés mûvelete során történik 
-    * (a kártyavezetõ rendszerben), szintén egy háromjegyû numerikus kód jelenik meg, mely a 010 értéknél nagyobb. 
-    * Egyéb hiba (vagy elutasítás) esetén a válaszkód egy olyan alfanumerikus "olvasható" kód, 
-    * mely a hiba (vagy elutasítás) okát adja meg.
+    * @desc A vÃ¡laszkÃ³d a fizetÃ©si tranzakciÃ³ â€žeredmÃ©nyeâ€. 
+    * Sikeres vÃ¡sÃ¡rlÃ¡s esetÃ©n egy hÃ¡romjegyÅ± numerikus kÃ³d a 000-010 Ã©rtÃ©ktartomÃ¡nybÃ³l. 
+    * Sikertelen vÃ¡sÃ¡rlÃ¡s esetÃ©n, amennyiben a hiba (vagy elutasÃ­tÃ¡s) a terhelÃ©s mÅ±velete sorÃ¡n tÃ¶rtÃ©nik 
+    * (a kÃ¡rtyavezetÅ‘ rendszerben), szintÃ©n egy hÃ¡romjegyÅ± numerikus kÃ³d jelenik meg, mely a 010 Ã©rtÃ©knÃ©l nagyobb. 
+    * EgyÃ©b hiba (vagy elutasÃ­tÃ¡s) esetÃ©n a vÃ¡laszkÃ³d egy olyan alfanumerikus "olvashatÃ³" kÃ³d, 
+    * mely a hiba (vagy elutasÃ­tÃ¡s) okÃ¡t adja meg.
     * 
     * @var string
     */
     var $valaszKod;
     
     /**
-    * @desc Authorizációs kód, a POS-os vásárláshoz tartozó authorizációs engedély szám. 
-    * Csak sikereses vásárlási tranzakciók esetén kerül kitöltésre. 
-    * Az adat a kártyavezetõ rendszer válasza a  vásárláshoz tartozó kártyaterhelési mûvelethez, 
-    * egyfajta azonosító / hitelesítõ kód, s mint ilyen, a vevõ oldali felületen is megjelenik, 
-    * valamint a bolt is megkapja válaszadatként. Ez a kód mindkét fél számára tárolandó adat!
+    * @desc AuthorizÃ¡ciÃ³s kÃ³d, a POS-os vÃ¡sÃ¡rlÃ¡shoz tartozÃ³ authorizÃ¡ciÃ³s engedÃ©ly szÃ¡m. 
+    * Csak sikereses vÃ¡sÃ¡rlÃ¡si tranzakciÃ³k esetÃ©n kerÃ¼l kitÃ¶ltÃ©sre. 
+    * Az adat a kÃ¡rtyavezetÅ‘ rendszer vÃ¡lasza a  vÃ¡sÃ¡rlÃ¡shoz tartozÃ³ kÃ¡rtyaterhelÃ©si mÅ±velethez, 
+    * egyfajta azonosÃ­tÃ³ / hitelesÃ­tÅ‘ kÃ³d, s mint ilyen, a vevÅ‘ oldali felÃ¼leten is megjelenik, 
+    * valamint a bolt is megkapja vÃ¡laszadatkÃ©nt. Ez a kÃ³d mindkÃ©t fÃ©l szÃ¡mÃ¡ra tÃ¡rolandÃ³ adat!
     */
     var $authorizaciosKod;
 

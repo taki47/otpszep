@@ -1,13 +1,15 @@
 <?php
 
+namespace taki47\otpszep\Models;
+
 /**
-* @desc A banki SOAP felület startWorkflowSnyc tranzakció indítás 
-* szolgáltatásának visszatérési értékét reprezentáló objektum.
+* @desc A banki SOAP felÃ¼let startWorkflowSnyc tranzakciÃ³ indÃ­tÃ¡s 
+* szolgÃ¡ltatÃ¡sÃ¡nak visszatÃ©rÃ©si Ã©rtÃ©kÃ©t reprezentÃ¡lÃ³ objektum.
 * 
-* Az NuSoap használata miatt került kialakításra, ugyanis az ottani SOAP
-* kliens nem objektumként adja vissza a szolgáltatás eredményét,
-* hanem asszociatív tömbként. Ezt a tömböt lehet megadni az objektum
-* egyik konstruktorának.
+* Az NuSoap hasznÃ¡lata miatt kerÃ¼lt kialakÃ­tÃ¡sra, ugyanis az ottani SOAP
+* kliens nem objektumkÃ©nt adja vissza a szolgÃ¡ltatÃ¡s eredmÃ©nyÃ©t,
+* hanem asszociatÃ­v tÃ¶mbkÃ©nt. Ezt a tÃ¶mbÃ¶t lehet megadni az objektum
+* egyik konstruktorÃ¡nak.
 * 
 * @version 4.0
 */
@@ -22,9 +24,9 @@ class WorkflowState {
     var $templateName;
 
     /**
-    * @desc Asszociatív tömb betöltése WorkflowState objektumba.
+    * @desc AsszociatÃ­v tÃ¶mb betÃ¶ltÃ©se WorkflowState objektumba.
     * 
-    * @param array $stateAsArray betöltendõ asszociatív tömb
+    * @param array $stateAsArray betÃ¶ltendÅ‘ asszociatÃ­v tÃ¶mb
     */
     function WorkflowState($stateAsArray) {
         if (is_null($stateAsArray)) return;

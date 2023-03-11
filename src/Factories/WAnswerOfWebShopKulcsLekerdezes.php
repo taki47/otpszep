@@ -1,9 +1,9 @@
 <?php
-namespace App\Http\Controllers\Shop\Factories;
+namespace taki47\otpszep\Factories;
 
-use ..\Models\WebShopKulcsAdatokLista;
-use ..\Models\WebShopKulcsAdatok;
-use ..\Utils\WebShopXmlUtils;
+use taki47\otpszep\Models\WebShopKulcsAdatokLista;
+use taki47\otpszep\Models\WebShopKulcsAdatok;
+use taki47\otpszep\Utils\WebShopXmlUtils;
 
 /**
 * Kulcs lekérdezés válasz XML-jének feldolgozásása és

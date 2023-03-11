@@ -1,24 +1,26 @@
 <?php
 
+namespace taki47\otpszep\Models;
+
 /**
-* A WEBSHOPKULCSLEKERDEZES tranzakciós válasz xml-t
-* reprezentáló value object.
+* A WEBSHOPKULCSLEKERDEZES tranzakciÃ³s vÃ¡lasz xml-t
+* reprezentÃ¡lÃ³ value object.
 * 
-* @author Lászlók Zsolt
+* @author LÃ¡szlÃ³k Zsolt
 * @version 4.0
 */
 class WebShopKulcsAdatokLista {
 
     /**
-    * Generált kulcs adatok zip-elt, base64 kódolt formátumban
+    * GenerÃ¡lt kulcs adatok zip-elt, base64 kÃ³dolt formÃ¡tumban
     * 
     * @var string
     */
     var $privateKey;
 
     /**
-    * A lekérdezett kulcsadatokat reprezentáló
-    * WebShopKulcsAdatok objektumok listája.
+    * A lekÃ©rdezett kulcsadatokat reprezentÃ¡lÃ³
+    * WebShopKulcsAdatok objektumok listÃ¡ja.
     * 
     * @var array
     */
@@ -37,7 +39,7 @@ class WebShopKulcsAdatokLista {
     }
 
     /**
-    * @desc Kulcs adatok tömb tárolása
+    * @desc Kulcs adatok tÃ¶mb tÃ¡rolÃ¡sa
     */
     function setWebShopKulcsAdatok(&$webShopKulcsAdatok) {
         $this->webShopKulcsAdatok = $webShopKulcsAdatok;

@@ -1,5 +1,5 @@
 <?php
-    namespace App\Http\Controllers\Shop\Utils;
+    namespace taki47\otpszep\Utils;
 
     use SoapClient;
     use SoapParam;
@@ -31,7 +31,6 @@
 
 
         function startWorkflowSynch($workflowName, $inputXml, $soapClient) {
-        
             $workflowState = NULL;
             $retryCount = 0;
             $resendAllowed = true;
@@ -55,7 +54,7 @@
                 }
                 catch (SoapFault $sf) {
                     $resendAllowed = false;
-                    if ($retryCount < RESENDCOUNT) {
+                    if ($retryCount < 10) {
                         if (stristr($sf->getMessage(), "Maximum workflow number is reached") !== false) {
                             // Pillanatnyi túlterhelés miatti visszautasítás a banki oldalon
                             $resendAllowed = true;
@@ -68,7 +67,7 @@
                 }
                 
             } while ($resendAllowed && $retryCount++ < 10);
-            
+
             return $workflowState;
         }
     }

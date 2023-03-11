@@ -1,9 +1,11 @@
 <?php
 
+namespace taki47\otpszep\Models;
+
 /**
-* Fizetési tranzakció indító- és válasz adatait tartalmazó
-* value object. A WEBSHOPTRANZAKCIOLEKERDEZES tranzakciós válasz xml
-* feldolgozásakor keletkezik, lekérdezett tételenként egy darab.
+* FizetÃ©si tranzakciÃ³ indÃ­tÃ³- Ã©s vÃ¡lasz adatait tartalmazÃ³
+* value object. A WEBSHOPTRANZAKCIOLEKERDEZES tranzakciÃ³s vÃ¡lasz xml
+* feldolgozÃ¡sakor keletkezik, lekÃ©rdezett tÃ©telenkÃ©nt egy darab.
 * 
 * @version 4.0
 */
@@ -327,15 +329,15 @@ class WebShopFizetesAdatok {
     }
     
     /**
-    * @desc Megadja, hogy a tranzakció csak regisztrálás mûveletre vonatkozik-e
+    * @desc Megadja, hogy a tranzakciÃ³ csak regisztrÃ¡lÃ¡s mÅ±veletre vonatkozik-e
     */
     function isCsakRegisztracio() {
         return ($this->isUgyfelRegisztracioKell() && ("0" == $this->getOsszeg()));
     }
     
     /**
-    * @desc Megadja, hogy történt-e bármilyen értesítési cím megadás a fizetés során.
-    * Igaz, ha legalább egy értesítési adatra vonatkozó ...Kell input változó igaz volt
+    * @desc Megadja, hogy tÃ¶rtÃ©nt-e bÃ¡rmilyen Ã©rtesÃ­tÃ©si cÃ­m megadÃ¡s a fizetÃ©s sorÃ¡n.
+    * Igaz, ha legalÃ¡bb egy Ã©rtesÃ­tÃ©si adatra vonatkozÃ³ ...Kell input vÃ¡ltozÃ³ igaz volt
     */
     function isErtesitesiCimKell() {
         return (
@@ -345,8 +347,8 @@ class WebShopFizetesAdatok {
     }
     
     /**
-    * @desc Megadja, hogy a kártyarendszerben sikeresen megtörtént a fizetési kérés befogadása.
-    * Nem kétlépcsõs fizetés esetén ez a sikeres vásárlást jelenti.
+    * @desc Megadja, hogy a kÃ¡rtyarendszerben sikeresen megtÃ¶rtÃ©nt a fizetÃ©si kÃ©rÃ©s befogadÃ¡sa.
+    * Nem kÃ©tlÃ©pcsÅ‘s fizetÃ©s esetÃ©n ez a sikeres vÃ¡sÃ¡rlÃ¡st jelenti.
     */
     function isSuccessful() {
         return in_array($this->posValaszkod, array('000', '001','002', '003','004', '005','006', '007','008', '009', '010'))
@@ -354,8 +356,8 @@ class WebShopFizetesAdatok {
     }
     
     /**
-    * @desc Megadja, hogy a háromszereplõs fizetés feldolgozás alatti státuszban van-e,
-    * azaz a státuszkód "VEVOOLDAL_INPUTVARAKOZAS" vagy "FELDOLGOZAS_ALATT"
+    * @desc Megadja, hogy a hÃ¡romszereplÅ‘s fizetÃ©s feldolgozÃ¡s alatti stÃ¡tuszban van-e,
+    * azaz a stÃ¡tuszkÃ³d "VEVOOLDAL_INPUTVARAKOZAS" vagy "FELDOLGOZAS_ALATT"
     */
     function isFizetesFeldolgozasAlatt() {
         return ("FELDOLGOZAS_ALATT" == $this->statuszKod) || ("VEVOOLDAL_INPUTVARAKOZAS" == $this->statuszKod);

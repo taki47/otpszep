@@ -1,8 +1,8 @@
 <?php
-namespace App\Http\Controllers\Shop\Factories;
+namespace taki47\otpszep\Factories;
 
-use ..\Models\WebShopTranzAzon;
-use ..\Utils\WebShopXmlUtils;
+use taki47\otpszep\Models\WebShopTranzAzon;
+use taki47\otpszep\Utils\WebShopXmlUtils;
 
 /**
 * A fizetési tranzakció azonosító generálás szolgáltatás 

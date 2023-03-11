@@ -1,17 +1,19 @@
 <?php
 
+namespace taki47\otpszep\Models;
+
 /**
-* Kulcslekérdezõ kérés válasz adatait tartalmazó
-* value object. A WEBSHOPKULCSLEKERDEZES tranzakciós válasz xml
-* feldolgozásakor keletkezik, válasz tételenként egy darab.
+* KulcslekÃ©rdezÅ‘ kÃ©rÃ©s vÃ¡lasz adatait tartalmazÃ³
+* value object. A WEBSHOPKULCSLEKERDEZES tranzakciÃ³s vÃ¡lasz xml
+* feldolgozÃ¡sakor keletkezik, vÃ¡lasz tÃ©telenkÃ©nt egy darab.
 * 
-* @author Lászlók Zsolt
+* @author LÃ¡szlÃ³k Zsolt
 * @version 4.0
 */
 class WebShopKulcsAdatok {
 
 	/**
-    * Lejárat dátuma, vagy hibaüzenet
+    * LejÃ¡rat dÃ¡tuma, vagy hibaÃ¼zenet
     * 
     * @var string
     */

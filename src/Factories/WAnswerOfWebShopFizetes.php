@@ -1,8 +1,8 @@
 <?php
-namespace App\Http\Controllers\Shop\Factories;
+namespace taki47\otpszep\Factories;
 
-use ..\Models\WebShopFizetesAdatok;
-use ..\Utils\WebShopXmlUtils;
+use taki47\otpszep\Models\WebShopFizetesAdatok;
+use taki47\otpszep\Utils\WebShopXmlUtils;
 
 /**
 * Háromszereplős fizetés válasz XML-jének feldolgozásása és
@@ -26,7 +26,6 @@ class WAnswerOfWebShopFizetes {
         
         $record = WebShopXmlUtils::getNodeByXPath($answer, '//answer/resultset/record');
         if (!is_null($record)) {
-                
             $webShopFizetesAdatok = new WebShopFizetesAdatok();
 
             $webShopFizetesAdatok->setPosId(WebShopXmlUtils::getElementText($record, "posid"));

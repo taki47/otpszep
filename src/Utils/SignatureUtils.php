@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Shop\Utils;
+namespace taki47\otpszep\Utils;
 
 /**
 * A WebShop PHP kliens által használt utility osztály
@@ -55,16 +55,10 @@ class SignatureUtils {
     * @return string digitális aláírás, hexadecimális formában (ahogy a banki felület elvárja). 
     */
     function generateSignature($data, $pkcs8PrivateKey) {
-    	
     	global $signature;
-    	
-    	if (version_compare(PHP_VERSION, '5.4.8', '>=')) {
-        	openssl_sign($data, $signature, $pkcs8PrivateKey, OPENSSL_ALGO_SHA512);
-    	}
-    	else {
-    		openssl_sign($data, $signature, $pkcs8PrivateKey, OPENSSL_ALGO_MD5);
-    	}
-    	
+
+        openssl_sign($data, $signature, $pkcs8PrivateKey, OPENSSL_ALGO_SHA512);
+
         return bin2hex($signature);
     }
 

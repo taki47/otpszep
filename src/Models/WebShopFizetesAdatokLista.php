@@ -1,23 +1,25 @@
 <?php
 
+namespace taki47\otpszep\Models;
+
 /**
-* A WEBSHOPTRANZAKCIOLEKERDEZES tranzakciós válasz xml-t
-* reprezentáló value object.
+* A WEBSHOPTRANZAKCIOLEKERDEZES tranzakciÃ³s vÃ¡lasz xml-t
+* reprezentÃ¡lÃ³ value object.
 * 
 * @version 4.0
 */
 class WebShopFizetesAdatokLista {
 
     /**
-    * Vonatkozó bolt posId-je.
+    * VonatkozÃ³ bolt posId-je.
     * 
     * @var string
     */
     var $posId;
 
     /**
-    * A lekérdezett tranzakciók adatait reprezentáló
-    * WebShopFizetesAdatok objektumok listája.
+    * A lekÃ©rdezett tranzakciÃ³k adatait reprezentÃ¡lÃ³
+    * WebShopFizetesAdatok objektumok listÃ¡ja.
     * 
     * @var array
     */
@@ -36,7 +38,7 @@ class WebShopFizetesAdatokLista {
     }
 
     /**
-    * @desc Fizetés adatok tömb tárolása (referencia szerint)
+    * @desc FizetÃ©s adatok tÃ¶mb tÃ¡rolÃ¡sa (referencia szerint)
     */
     function setWebShopFizetesAdatok(&$webShopFizetesAdatok) {
         $this->webShopFizetesAdatok = &$webShopFizetesAdatok;

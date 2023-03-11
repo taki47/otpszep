@@ -1,8 +1,8 @@
 <?php 
 
-namespace App\Http\Controllers\Shop\Factories;
+namespace taki47\otpszep\Factories;
 
-use ..\Utils\XmlUtils;
+use taki47\otpszep\Utils\WebShopXmlUtils;
 
 /**
 * A banki tranzakció válaszát reprezentáló value object.
@@ -91,7 +91,7 @@ class WResponse  {
     * @param WorkflowState $workflowState a banki SOAP felület válaszának
     *        bean reprezenzációja
     */
-    function WResponse ($workflowname, $workflowState) {
+    function __construct($workflowname, $workflowState) {
         if (is_null($workflowState)) return;
         $this->instanceId = property_exists($workflowState, 'instanceId') ? $workflowState->instanceId : $workflowState->InstanceId;
         
@@ -101,7 +101,7 @@ class WResponse  {
         $this->finished = $completed && !$timeout;
         
         if ($this->finished) {
-            XmlUtils::parseOutputXml((property_exists($workflowState, 'result') ? $workflowState->result : $workflowState->Result), $this);
+            WebShopXmlUtils::parseOutputXml((property_exists($workflowState, 'result') ? $workflowState->result : $workflowState->Result), $this);
             $answerFactory = WSAnswerFactory::getAnswerFactory($workflowname);
             $this->answerModel = $answerFactory->load($this->responseDOM);
         }

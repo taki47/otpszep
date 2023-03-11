@@ -1,7 +1,8 @@
 <?php
-    namespace App\Http\Controllers\Shop\Utils;
+    namespace taki47\otpszep\Utils;
 
     use DomDocument;
+    use DOMXPath;
 
     class WebShopXmlUtils {
         /**
@@ -82,6 +83,76 @@
         }
 
         /**
+        * @desc A banki tranzakció output xml-jének értelmezése, 
+        * adott WResponse objektum feltöltése.
+        * 
+        * @param string $responseStr output xml szövege
+        * @param WResponse feltöltendő response objektum
+        */
+        function parseOutputXml ($responseStr, $wresponse) {
+            $responseStrDecoded = NULL;
+            
+            $responseStrDecoded = base64_decode($responseStr, true);
+            
+            $wresponse->response = $responseStrDecoded !== FALSE ? $responseStrDecoded : $responseStr;
+            $wresponse->responseDOM = new DomDocument();
+            
+            $wresponse->responseDOM->loadXML($wresponse->response);
+            
+            $path = new DOMXPath($wresponse->responseDOM);
+            
+            // Válaszkódok listájának előállítása
+            $wresponse->hasSuccessfulAnswer = false;
+            $messageElements = $path->query('//answer/messagelist/message');
+            for ($i = 0; $i < $messageElements->length; $i++) {
+                $messageElement = $messageElements->item($i);
+                $message = $messageElement->nodeValue;
+                $wresponse->messages[] = $message;
+                if ($message != "SIKERESWEBSHOPFIZETESINDITAS ") {
+                    $wresponse->errors[] = $message;
+                }
+                else {
+                    $wresponse->hasSuccessfulAnswer = true;
+                }
+            }
+
+            // Tájékoztató kódok listájának előállítása
+            $infoElements = $path->query('//answer/infolist/info');
+            for ($i = 0; $i < $infoElements->length; $i++) {
+                $infoElement = $infoElements->item($i);
+                $info = $infoElement->nodeValue;
+                $wresponse->infos[] = $info;
+            }
+        }
+
+        /**
+        * @desc XPath kifejezés kiértékelése, mely egy
+        * adott elemtől indul és egy elemre vonatkozik. 
+        * Lista esetén az első elem kerül a válaszba.
+        * 
+        * @param DOMDocument / DOMNode $node a kiértékelés helye
+        * @param string $xpath xpath kifejezés
+        */
+        function getNodeByXPath($node, $xpath) {
+            $doc = NULL;
+            if (is_a($node, 'DOMDocument')) {
+                $doc = $node;
+                $node = $node->documentElement;   
+            }
+            else {
+                $doc = $node->ownerDocument;
+            }
+            
+            $path = new DOMXPath($doc);
+            $record = $path->query($xpath, $node);
+
+            if (is_a($record, 'DOMNodeList') && ($record->length > 0)) 
+                $record = $record->item(0);
+
+            return $record;
+        }
+
+        /**
         * DomDocument szöveges reprezentációja
         * 
         * @param DomDocument $dom 
@@ -90,6 +161,42 @@
         */
         function xmlToString($dom) {
             return $dom->saveXML();
+        }
+
+        /**
+        * @desc Adott xml node adott nevű child node-ja szöveges 
+        * tartalmának lekérdezése. Az eredmény összefűzve tartalmazza 
+        * az XML_TEXT_NODE típusú child node-k értékét.
+        * 
+        * @param DomNode $record a szülő node
+        * @param string $childNode a child node neve
+        * 
+        * @return string a child node szöveges tartalma
+        */
+        function getElementText($record, $childName) {
+            $result = NULL;
+            $childNode = self::getChildElement($record, $childName);
+            if (!is_null($childNode)) $result = $childNode->textContent;
+            return iconv($record->ownerDocument->actualEncoding, "ISO-8859-2", $result);
+        }
+
+        /**
+        * @desc Adott xml node első adott nevű child node-jának lekérdezése.
+        * 
+        * @param DomNode $record
+        * @param string $childName
+        * 
+        * @return DomNode az adott nevű Node / Element vagy NULL
+        */
+        function getChildElement($record, $childName) {
+            $result = NULL;
+            $childNodes = $record->childNodes;
+            for($i = 0; !is_null($childNodes) && $i<= $childNodes->length && is_null($result); $i++){
+                $item = $childNodes->item($i);
+                if ( $item && $item->nodeName == $childName ) 
+                    $result = $childNodes->item($i);
+            }
+            return $result;
         }
     }
 ?>

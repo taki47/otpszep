@@ -2,53 +2,88 @@
     namespace taki47\otpszep;
 
     use Exception;
-    use .\Utils/WebShopXmlUtils;
-    use .\Utils\SignatureUtils;
-    use .\Utils\SoapUtils;
-    use .\Factories\WResponse;
+    use taki47\otpszep\Utils\WebShopXmlUtils;
+    use taki47\otpszep\Utils\SignatureUtils;
+    use taki47\otpszep\Utils\SoapUtils;
+    use taki47\otpszep\Factories\WResponse;
 
     class Service {
         protected $customer_page_url = "https://www.otpbankdirekt.hu/webshop/do/webShopVasarlasInditas?posId={0}&azonosito={1}&nyelvkod={2}&version=5";
-        protected $otp_mw_server_url = "https://www.otpbankdirekt.hu/mwaccesspublic12/mwaccess";
+        protected $otp_mw_server_url = "https://www.otpbankdirekt.hu/mwaccesspublic/mwaccess";
+        protected $back_url;
         protected $pos_id;
+        protected $currency;
+        protected $lang_code;
         protected $priv_key_fileName;
         protected $soap_client;
 
         function __construct()
         {
-            $this->pos_id = env("POS_ID");
+            $this->pos_id            = env("POS_ID");
+            $this->currency          = env("CURRENCY");
+            $this->lang_code         = env("LANG_CODE");
             $this->priv_key_fileName = env("PRIV_KEY_FILENAME");
-            $this->soap_client = SoapUtils::createSoapClient($this->otp_mw_server_url);
+            $this->back_url          = env("BACK_URL");
+            $this->soap_client       = SoapUtils::createSoapClient($this->otp_mw_server_url);
         }
 
-        function startWorkflow() {
-
-        }
-
-        function tranzakcioAzonositoGeneralas()
+        function startWorkflow($tranzAzon, $amount)
         {
-            $dom = WebShopXmlUtils::getRequestSkeleton("WEBSHOPTRANZAZONGENERALAS", $variables);
-            WebShopXmlUtils::addParameter($dom, $variables, "isClientCode", "WEBSHOP");
-            WebShopXmlUtils::addParameter($dom, $variables, "isPOSID", $this->pos_id);
+            $dom = WebShopXmlUtils::getRequestSkeleton("WEBSHOPFIZETESINDITAS", $variables);
 
-            $signatureFields = array(0 => $this->pos_id);
+            /* aláírás kiszámítása */
+            $signatureFields = array(0 => $this->pos_id, $tranzAzon, $amount, $this->currency,"");
             $signatureText = SignatureUtils::getSignatureText($signatureFields);
-
             $pkcs8PrivateKey = SignatureUtils::loadPrivateKey($this->getPrivateKeyFile($this->priv_key_fileName));
             $signature = SignatureUtils::generateSignature($signatureText, $pkcs8PrivateKey);
-            WebShopXmlUtils::addParameter($dom, $variables, "isClientSignature", $signature, "algorithm", "SHA512");
 
-            $inputXml = WebShopXmlUtils::xmlToString($dom);
+            $attrName = 'algorithm';
+            $attrValue = 'SHA512';
 
-            $workflowState = SoapUtils::startWorkflowSynch("WEBSHOPTRANZAZONGENERALAS", $inputXml, $this->soap_client);
-            $response = new WResponse("WEBSHOPTRANZAZONGENERALAS", $workflowState);
+
+            /* paraméterek beillesztése */
+            WebShopXmlUtils::addParameter($dom, $variables, "isClientCode", "WEBSHOP");
+            WebShopXmlUtils::addParameter($dom, $variables, "isPOSID", $this->pos_id);
+            WebShopXmlUtils::addParameter($dom, $variables, "isTransactionID", $tranzAzon);
+            WebShopXmlUtils::addParameter($dom, $variables, "isAmount", $amount);
+            WebShopXmlUtils::addParameter($dom, $variables, "isExchange", $this->currency);
+            WebShopXmlUtils::addParameter($dom, $variables, "isLanguageCode", $this->lang_code);
+            WebShopXmlUtils::addParameter($dom, $variables, "isCardPocketId", "07");
+            WebShopXmlUtils::addParameter($dom, $variables, "isBackURL", $this->back_url);
+
+            WebShopXmlUtils::addParameter($dom, $variables, "isNameNeeded", "false");
+            WebShopXmlUtils::addParameter($dom, $variables, "isCountryNeeded", "false");
+            WebShopXmlUtils::addParameter($dom, $variables, "isCountyNeeded", "false");
+            WebShopXmlUtils::addParameter($dom, $variables, "isSettlementNeeded", "false");
+            WebShopXmlUtils::addParameter($dom, $variables, "isZipcodeNeeded", "false");
+            WebShopXmlUtils::addParameter($dom, $variables, "isStreetNeeded", "false");
+            WebShopXmlUtils::addParameter($dom, $variables, "isMailAddressNeeded", "false");
+            WebShopXmlUtils::addParameter($dom, $variables, "isNarrationNeeded", "false");
+            WebShopXmlUtils::addParameter($dom, $variables, "isConsumerReceiptNeeded", "false");
             
-            if ($response->isFinished()) {
-                $responseDom = $response->getResponseDOM(); 
-                // ??? $this->lastOutputXml = WebShopWebShopXmlUtils::xmlToString($responseDom);
+            WebShopXmlUtils::addParameter($dom, $variables, "isShopComment", "");
+
+            WebShopXmlUtils::addParameter($dom, $variables, "isConsumerRegistrationNeeded", "false");
+            WebShopXmlUtils::addParameter($dom, $variables, "isTwoStaged", "true");
+
+            WebShopXmlUtils::addParameter($dom, $variables, "isClientSignature", $signature, $attrName, $attrValue);
+            
+            $inputXml = WebShopXmlUtils::xmlToString($dom);
+            
+            // tranzakció indítása
+            $workflowState = SoapUtils::startWorkflowSynch("WEBSHOPFIZETESINDITAS", $inputXml, $this->soap_client);
+
+            $response = null;
+            if ( !is_null($workflowState) ) {
+                $response = new WResponse("WEBSHOPFIZETESINDITAS", $workflowState);
             }
 
-            return $response;
+            if ( $response->isFinished() ) {
+                $responseDom = $response->getResponseDOM();
+                $outputXML = WebShopXmlUtils::xmlToString($responseDom);
+            }
+
+            return redirect("https://www.otpbankdirekt.hu/webshop/do/webShopVasarlasInditas?posId=%23".$this->pos_id."&azonosito=".$tranzAzon."&nyelvkod=".$this->lang_code."&version=5");
         }
 
         function getPrivateKeyFile($keyFile)

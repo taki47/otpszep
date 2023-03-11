@@ -1,9 +1,9 @@
 <?php
-namespace App\Http\Controllers\Shop\Factories;
+namespace taki47\otpszep\Factories;
 
-use ..\Models\WebShopFizetesAdatokLista;
-use ..\Models\WebShopFizetesAdatok;
-use ..\Utils\WebShopXmlUtils;
+use taki47\otpszep\Models\WebShopFizetesAdatokLista;
+use taki47\otpszep\Models\WebShopFizetesAdatok;
+use taki47\otpszep\Utils\WebShopXmlUtils;
 
 /**
 * Fizetési tranzakció lekérdezés válasz XML-jének feldolgozásása és

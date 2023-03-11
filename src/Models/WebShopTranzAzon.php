@@ -1,8 +1,10 @@
 <?php
 
+namespace taki47\otpszep\Models;
+
 /**
-* Fizetési tranzakció azonosító generálás (WEBSHOPTRANZAZONGENERALAS)
-* válasz adatának value object reprezentációja.
+* FizetÃ©si tranzakciÃ³ azonosÃ­tÃ³ generÃ¡lÃ¡s (WEBSHOPTRANZAZONGENERALAS)
+* vÃ¡lasz adatÃ¡nak value object reprezentÃ¡ciÃ³ja.
 * 
 * @version 4.0
 */

@@ -1,37 +1,39 @@
 <?php
 
+namespace taki47\otpszep\Models;
+
 /**
-* @desc A fizetés jóváírás tranzakció válaszadatait
-* tartalmazó bean / value object.
+* @desc A fizetÃ©s jÃ³vÃ¡Ã­rÃ¡s tranzakciÃ³ vÃ¡laszadatait
+* tartalmazÃ³ bean / value object.
 * 
 * @version 4.0
 */
 class WebShopJovairasValasz {
 
     /**
-    * @desc A fizetés jóváírás tranzakció bank oldali egyedi tranzakció azonosítója.
+    * @desc A fizetÃ©s jÃ³vÃ¡Ã­rÃ¡s tranzakciÃ³ bank oldali egyedi tranzakciÃ³ azonosÃ­tÃ³ja.
     * 
     * @var string
     */
     var $mwTransactionId;
 
     /**
-    * @desc A válaszkód a jóváírási tranzakció „eredménye”. 
-    * Sikeres jóváírás esetén egy háromjegyû numerikus kód a 000-010 értéktartományból. 
-    * Sikertelen vásárlás esetén, amennyiben a hiba (vagy elutasítás) a jóváírás mûvelete során történik 
-    * (a kártyavezetõ rendszerben), szintén egy háromjegyû numerikus kód jelenik meg, mely a 010 értéknél nagyobb. 
-    * Egyéb hiba (vagy elutasítás) esetén a válaszkód egy olyan alfanumerikus "olvasható" kód, 
-    * mely a hiba (vagy elutasítás) okát adja meg.
+    * @desc A vÃ¡laszkÃ³d a jÃ³vÃ¡Ã­rÃ¡si tranzakciÃ³ â€žeredmÃ©nyeâ€. 
+    * Sikeres jÃ³vÃ¡Ã­rÃ¡s esetÃ©n egy hÃ¡romjegyÅ± numerikus kÃ³d a 000-010 Ã©rtÃ©ktartomÃ¡nybÃ³l. 
+    * Sikertelen vÃ¡sÃ¡rlÃ¡s esetÃ©n, amennyiben a hiba (vagy elutasÃ­tÃ¡s) a jÃ³vÃ¡Ã­rÃ¡s mÅ±velete sorÃ¡n tÃ¶rtÃ©nik 
+    * (a kÃ¡rtyavezetÅ‘ rendszerben), szintÃ©n egy hÃ¡romjegyÅ± numerikus kÃ³d jelenik meg, mely a 010 Ã©rtÃ©knÃ©l nagyobb. 
+    * EgyÃ©b hiba (vagy elutasÃ­tÃ¡s) esetÃ©n a vÃ¡laszkÃ³d egy olyan alfanumerikus "olvashatÃ³" kÃ³d, 
+    * mely a hiba (vagy elutasÃ­tÃ¡s) okÃ¡t adja meg.
     * 
     * @var string
     */
     var $valaszKod;
     
     /**
-    * @desc Authorizációs kód, a POS-os jóváíráshoz tartozó authorizációs engedély szám. 
-    * Csak sikereses jóváírási tranzakciók esetén kerül kitöltésre. 
-    * Az adat a kártyavezetõ rendszer válasza a  jóváíráshoz tartozó kártyajóváírási mûvelethez, 
-    * egyfajta azonosító / hitelesítõ kód, s mint ilyen, a bolt is megkapja válaszadatként.
+    * @desc AuthorizÃ¡ciÃ³s kÃ³d, a POS-os jÃ³vÃ¡Ã­rÃ¡shoz tartozÃ³ authorizÃ¡ciÃ³s engedÃ©ly szÃ¡m. 
+    * Csak sikereses jÃ³vÃ¡Ã­rÃ¡si tranzakciÃ³k esetÃ©n kerÃ¼l kitÃ¶ltÃ©sre. 
+    * Az adat a kÃ¡rtyavezetÅ‘ rendszer vÃ¡lasza a  jÃ³vÃ¡Ã­rÃ¡shoz tartozÃ³ kÃ¡rtyajÃ³vÃ¡Ã­rÃ¡si mÅ±velethez, 
+    * egyfajta azonosÃ­tÃ³ / hitelesÃ­tÅ‘ kÃ³d, s mint ilyen, a bolt is megkapja vÃ¡laszadatkÃ©nt.
     */
     var $authorizaciosKod;
     

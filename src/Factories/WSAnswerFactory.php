@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Shop\Factories;
+namespace taki47\otpszep\Factories;
 
-use WAnswerOfWebShopTranzAzonGeneralas;
-use WAnswerOfWebShopTrazakcioLekerdezes;
-use WAnswerOfWebShopFizetes;
-use WAnswerOfWebShopFizetesKetszereplos;
-use WAnswerOfWebShopJovairas;
-use WAnswerOfWebShopKulcsLekerdezes;
+use taki47\otpszep\Factories\WAnswerOfWebShopTranzAzonGeneralas;
+use taki47\otpszep\Factories\WAnswerOfWebShopTrazakcioLekerdezes;
+use taki47\otpszep\Factories\WAnswerOfWebShopFizetes;
+use taki47\otpszep\Factories\WAnswerOfWebShopFizetesKetszereplos;
+use taki47\otpszep\Factories\WAnswerOfWebShopJovairas;
+use taki47\otpszep\Factories\WAnswerOfWebShopKulcsLekerdezes;
 
 /**
 * A tranzakciós válasz XML-eket reprezentáló value object 
@@ -32,7 +32,7 @@ class WSAnswerFactory  {
                 return new WAnswerOfWebShopTranzAzonGeneralas();
            case 'WEBSHOPTRANZAKCIOLEKERDEZES':
                 return new WAnswerOfWebShopTrazakcioLekerdezes();
-           case 'WEBSHOPFIZETES':
+           case 'WEBSHOPFIZETESINDITAS':
                 return new WAnswerOfWebShopFizetes();
            case 'WEBSHOPFIZETESKETSZEREPLOS':
                 return new WAnswerOfWebShopFizetesKetszereplos();

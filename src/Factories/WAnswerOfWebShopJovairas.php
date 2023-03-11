@@ -1,8 +1,8 @@
 <?php
-namespace App\Http\Controllers\Shop\Factories;
+namespace taki47\otpszep\Factories;
 
-use ..\Models\WebShopJovairasValasz;
-use ..\Utils\WebShopXmlUtils;
+use taki47\otpszep\Models\WebShopJovairasValasz;
+use taki47\otpszep\Utils\WebShopXmlUtils;
 
 /**
 * Fizetés jóváírás válasz XML-jének feldolgozásása és a megfelelő value object előállítása.

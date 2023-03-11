@@ -1,8 +1,8 @@
 <?php
-namespace App\Http\Controllers\Shop\Factories;
+namespace taki47\otpszep\Factories;
 
-use ..\Models\WebShopFizetesValasz;
-use ..\Utils\WebShopXmlUtils;
+use taki47\otpszep\Models\WebShopFizetesValasz;
+use taki47\otpszep\Utils\WebShopXmlUtils;
 
 /**
 * Kétszereplős fizetés illetve kétlépcsős fizetés lezárás 
