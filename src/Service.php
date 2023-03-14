@@ -83,11 +83,12 @@
                 $outputXML = WebShopXmlUtils::xmlToString($responseDom);
             }
 
+            $url = "https://www.otpbankdirekt.hu/webshop/do/webShopVasarlasInditas?posId=".$this->pos_id."&azonosito=".$tranzAzon."&nyelvkod=".$this->lang_code."&version=5";
+            $url = str_replace('#','%23',$url);
+
             $return = [
-                "message"   => $response->getMessages()[0],
-                "pos_id"    => $this->pos_id,
-                "tranzAzon" => $tranzAzon,
-                "langCode"  => $this->lang_code
+                "message" => $response->getMessages()[0],
+                "url"     => $url
             ];
 
             return $return;
