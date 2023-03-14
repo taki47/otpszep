@@ -6,7 +6,7 @@
     use SoapVar;
 
     class SoapUtils {
-        function createSoapClient($otp_mv_server_url) {
+        static function createSoapClient($otp_mv_server_url) {
             /**
             * @desc A banki felülethez illeszkedő SOAP kliens létrehozása.
             * A kliensen beállított socket_timeout 660 másodperc azért,
@@ -30,7 +30,7 @@
         }
 
 
-        function startWorkflowSynch($workflowName, $inputXml, $soapClient) {
+        static function startWorkflowSynch($workflowName, $inputXml, $soapClient) {
             $workflowState = NULL;
             $retryCount = 0;
             $resendAllowed = true;

@@ -26,7 +26,7 @@ class WSAnswerFactory  {
     * @param string a tranzakció kódja
     * @return mixed a megfelelő WAnswerOf... objektum
     */
-    function getAnswerFactory($workflowName) {
+    static function getAnswerFactory($workflowName) {
         switch ($workflowName) {
            case 'WEBSHOPTRANZAZONGENERALAS':
                 return new WAnswerOfWebShopTranzAzonGeneralas();

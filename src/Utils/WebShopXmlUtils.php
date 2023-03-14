@@ -18,7 +18,7 @@
         * 
         * @return DomDocument a létrehozott objektum
         */
-        function getRequestSkeleton($templateName, &$variables) {
+        static function getRequestSkeleton($templateName, &$variables) {
             $dom = new DomDocument('1.0', "UTF-8");
             $root = $dom->createElement('StartWorkflow');
             $dom->appendChild($root);
@@ -42,7 +42,7 @@
         * @param string attributeName a változóhoz esetlegesen hozzáadandó attribútum neve
         * @param string attributeValue a változóhoz esetlegesen hozzáadandó attribútum értéke
         */
-        function addParameter($dom, $variables, $name, $value, $attributeName = null, $attributeValue = null) {
+        static function addParameter($dom, $variables, $name, $value, $attributeName = null, $attributeValue = null) {
             $node = null;
             if (is_bool($value)) {
                 $value = $value ? TRUE : FALSE;
@@ -89,7 +89,7 @@
         * @param string $responseStr output xml szövege
         * @param WResponse feltöltendő response objektum
         */
-        function parseOutputXml ($responseStr, $wresponse) {
+        static function parseOutputXml ($responseStr, $wresponse) {
             $responseStrDecoded = NULL;
             
             $responseStrDecoded = base64_decode($responseStr, true);
@@ -133,7 +133,7 @@
         * @param DOMDocument / DOMNode $node a kiértékelés helye
         * @param string $xpath xpath kifejezés
         */
-        function getNodeByXPath($node, $xpath) {
+        static function getNodeByXPath($node, $xpath) {
             $doc = NULL;
             if (is_a($node, 'DOMDocument')) {
                 $doc = $node;
@@ -159,7 +159,7 @@
         * 
         * @return string $dom->saveXML()
         */
-        function xmlToString($dom) {
+        static function xmlToString($dom) {
             return $dom->saveXML();
         }
 
@@ -173,7 +173,7 @@
         * 
         * @return string a child node szöveges tartalma
         */
-        function getElementText($record, $childName) {
+        static function getElementText($record, $childName) {
             $result = NULL;
             $childNode = self::getChildElement($record, $childName);
             if (!is_null($childNode)) $result = $childNode->textContent;
@@ -188,7 +188,7 @@
         * 
         * @return DomNode az adott nevű Node / Element vagy NULL
         */
-        function getChildElement($record, $childName) {
+        static function getChildElement($record, $childName) {
             $result = NULL;
             $childNodes = $record->childNodes;
             for($i = 0; !is_null($childNodes) && $i<= $childNodes->length && is_null($result); $i++){
@@ -206,7 +206,7 @@
         * @param DOMDocument / DOMNode $node a kiértékelés helye
         * @param string $xpath xpath kifejezés
         */
-        function getNodeArrayByXPath($node, $xpath) {
+        static function getNodeArrayByXPath($node, $xpath) {
             $doc = NULL;
             if (is_a($node, 'DOMDocument')) {
                 $doc = $node;

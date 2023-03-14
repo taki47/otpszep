@@ -18,7 +18,7 @@ class SignatureUtils {
     * @param string $privKeyFileName a privát kulcs állomány elérési címe
     * @return resource privát kulcs
     */
-    function loadPrivateKey($privKeyFileName) {
+    static function loadPrivateKey($privKeyFileName) {
         $priv_key = file_get_contents($privKeyFileName);
         $pkeyid = openssl_get_privatekey($priv_key);
         return $pkeyid;
@@ -31,7 +31,7 @@ class SignatureUtils {
     * @param array aláírandó mezők 
     * @return string aláírandó szöveg
     */
-    function getSignatureText($signatureFields) {
+    static function getSignatureText($signatureFields) {
         $signatureText = '';
         foreach ($signatureFields as $data) {
             $signatureText = $signatureText.$data.'|';
@@ -54,7 +54,7 @@ class SignatureUtils {
     * 
     * @return string digitális aláírás, hexadecimális formában (ahogy a banki felület elvárja). 
     */
-    function generateSignature($data, $pkcs8PrivateKey) {
+    static function generateSignature($data, $pkcs8PrivateKey) {
     	global $signature;
 
         openssl_sign($data, $signature, $pkcs8PrivateKey, OPENSSL_ALGO_SHA512);
