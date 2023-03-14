@@ -102,7 +102,7 @@ class WAnswerOfWebShopTrazakcioLekerdezes {
             $lista[] = $webShopFizetesAdatok;
         }
         
-        usort($lista, "fizetesAdatokCmp");
+        //usort($lista, "fizetesAdatokCmp");
         
         return $webShopFizetesAdatokLista;
     }

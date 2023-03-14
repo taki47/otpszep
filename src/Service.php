@@ -23,7 +23,7 @@
             $this->currency          = env("CURRENCY");
             $this->lang_code         = env("LANG_CODE");
             $this->priv_key_fileName = env("PRIV_KEY_FILENAME");
-            $this->back_url          = env("BACK_URL");
+            $this->back_url          = env("BACK_URL")."?tranzakcioAzonosito=";
             $this->soap_client       = SoapUtils::createSoapClient($this->otp_mw_server_url);
         }
 
@@ -49,7 +49,7 @@
             WebShopXmlUtils::addParameter($dom, $variables, "isExchange", $this->currency);
             WebShopXmlUtils::addParameter($dom, $variables, "isLanguageCode", $this->lang_code);
             WebShopXmlUtils::addParameter($dom, $variables, "isCardPocketId", "07");
-            WebShopXmlUtils::addParameter($dom, $variables, "isBackURL", $this->back_url);
+            WebShopXmlUtils::addParameter($dom, $variables, "isBackURL", $this->back_url.$tranzAzon);
 
             WebShopXmlUtils::addParameter($dom, $variables, "isNameNeeded", "false");
             WebShopXmlUtils::addParameter($dom, $variables, "isCountryNeeded", "false");
@@ -64,7 +64,7 @@
             WebShopXmlUtils::addParameter($dom, $variables, "isShopComment", "");
 
             WebShopXmlUtils::addParameter($dom, $variables, "isConsumerRegistrationNeeded", "false");
-            WebShopXmlUtils::addParameter($dom, $variables, "isTwoStaged", "true");
+            WebShopXmlUtils::addParameter($dom, $variables, "isTwoStaged", "false");
 
             WebShopXmlUtils::addParameter($dom, $variables, "isClientSignature", $signature, $attrName, $attrValue);
             
@@ -83,7 +83,14 @@
                 $outputXML = WebShopXmlUtils::xmlToString($responseDom);
             }
 
-            return redirect("https://www.otpbankdirekt.hu/webshop/do/webShopVasarlasInditas?posId=%23".$this->pos_id."&azonosito=".$tranzAzon."&nyelvkod=".$this->lang_code."&version=5");
+            $return = [
+                "message"   => $response->getMessages()[0],
+                "pos_id"    => $this->pos_id,
+                "tranzAzon" => $tranzAzon,
+                "langCode"  => $this->lang_code
+            ];
+
+            return $return;
         }
 
         function getPrivateKeyFile($keyFile)
@@ -93,6 +100,41 @@
                 return $keyFile;
 
             return false;
+        }
+
+        function tranzakcioStatusLekerdezes($tranzAzon) {
+            /* aláírás kiszámítása */
+            $signatureFields = array(0 => $this->pos_id, $tranzAzon, null, null, null);
+            $signatureText = SignatureUtils::getSignatureText($signatureFields);
+            $pkcs8PrivateKey = SignatureUtils::loadPrivateKey($this->getPrivateKeyFile($this->priv_key_fileName));
+            $signature = SignatureUtils::generateSignature($signatureText, $pkcs8PrivateKey);
+
+            $attrName = 'algorithm';
+            $attrValue = 'SHA512';
+            
+            
+            $dom = WebShopXmlUtils::getRequestSkeleton("WEBSHOPTRANZAKCIOLEKERDEZES", $variables);
+            
+            WebShopXmlUtils::addParameter($dom, $variables, "isClientCode", "WEBSHOP");
+            WebShopXmlUtils::addParameter($dom, $variables, "isPOSID", $this->pos_id);
+            WebShopXmlUtils::addParameter($dom, $variables, "isTransactionID", $tranzAzon);
+            WebShopXmlUtils::addParameter($dom, $variables, "isClientSignature", $signature, $attrName, $attrValue);
+
+            $inputXml = WebShopXmlUtils::xmlToString($dom);
+            
+            // tranzakció indítása
+            $workflowState = SoapUtils::startWorkflowSynch("WEBSHOPTRANZAKCIOLEKERDEZES", $inputXml, $this->soap_client);
+
+            $response = null;
+            if ( !is_null($workflowState) )
+                $response = new WResponse("WEBSHOPTRANZAKCIOLEKERDEZES", $workflowState);
+
+            if ( $response->isFinished() ) {
+                $responseDom = $response->getResponseDOM();
+                $outputXML = WebShopXmlUtils::xmlToString($responseDom);
+            }
+
+            return $response->getAnswer()->webShopFizetesAdatok[0];
         }
     }
 ?>

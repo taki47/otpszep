@@ -198,5 +198,38 @@
             }
             return $result;
         }
+
+        /**
+        * @desc XPath kifejezés kiértékelése, mely egy
+        * adott elemtől indul és elemekre listájára vonatkozik. 
+        * 
+        * @param DOMDocument / DOMNode $node a kiértékelés helye
+        * @param string $xpath xpath kifejezés
+        */
+        function getNodeArrayByXPath($node, $xpath) {
+            $doc = NULL;
+            if (is_a($node, 'DOMDocument')) {
+                $doc = $node;
+                $node = $node->documentElement;   
+            }
+            else {
+                $doc = $node->ownerDocument;
+            }
+            
+            $path = new DOMXPath($doc);
+            $recordList = $path->query($xpath, $node);
+
+            $result = array();
+            if (is_a($recordList, 'DOMNodeList')) {
+                for ($i=0; $i < $recordList->length; $i++) {
+                    $result[] = $recordList->item($i);
+                }
+            }
+            else if (is_a($recordList, 'DOMNode')) {
+                $result[] = $recordList;
+            }
+
+            return $result;
+        }
     }
 ?>
