@@ -54,7 +54,9 @@ class PublicController extends Controller
         // do something with the transactionNr
 
         // start transaction
-        $service = new Service();
+        // if you have custom backURL, add to parameter, or add empty value: $service = new Service("");
+        $backURL = "http://localhost.local";
+        $service = new Service($backURL);
         $response = $service->startWorkFlow($transactionNr, $amount);
 
         if ( $response["message"] == "SIKERESWEBSHOPFIZETESINDITAS" ) {
@@ -79,7 +81,7 @@ class PublicController extends Controller
     {
         $azonosito = $request->tranzakcioAzonosito;
 
-        $service = new Service();
+        $service = new Service("");
         $response = $service->tranzakcioStatusLekerdezes($azonosito);
         
         if ( $response->posValaszkod=="000" ) {
