@@ -25,7 +25,7 @@
             $this->priv_key_fileName = env("PRIV_KEY_FILENAME");
             $this->back_url          = env("BACK_URL")."?tranzakcioAzonosito=";
             if ( $backURL!="" )
-                $this->back_url = $backURL;
+                $this->back_url = $backURL."?tranzakcioAzonosito=";
             
             $this->soap_client       = SoapUtils::createSoapClient($this->otp_mw_server_url);
         }
